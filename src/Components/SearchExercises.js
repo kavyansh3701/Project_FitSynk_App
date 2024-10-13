@@ -126,7 +126,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         <Button
           className="search-btn"
           sx={{
-            bgcolor: '#FF2625',
+            bgcolor: '#008080',
             color: 'white',
             textTransform: 'none',
             width: { lg: '175px', xs: '80px' },
@@ -135,8 +135,9 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
             position: 'absolute',
             right: '0',
             '&:hover': {
-              bgcolor: 'white',
-              color: '#FF2625',
+              bgcolor: 'white !important',
+              color: '#008080 !important' ,
+              border: '2px solid #008080 !important'
             },
           }}
           onClick={handleSearchClick} 
