@@ -13,15 +13,13 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
   const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
 
   const currentExercises = exercises.slice(indexOfFirstExercise, indexOfLastExercise);
-  console.log(currentExercises);
   
-
-  // Paginate function
-  const paginate = (event, value) => {
+  const paginate = (e ,value) => {
     setCurrentPage(value);
-    window.scrollTo({ top: 1800, behavior: 'smooth' });
-  };
-  if (!currentExercises.length) return <div>Loading..</div>
+
+    window.scrollTo({top:1800 , behaviour: 'smooth'}) 
+  }
+  
   return (
     <Box
       id="exercises"
@@ -47,7 +45,6 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
           </Typography>
         )}
       </Stack>
-
       {/* Pagination */}
       <Stack mt="100px" alignItems="center">
         {exercises.length > exercisesPerPage && (

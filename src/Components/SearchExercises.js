@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { ExerciseOptions, fetchdata } from '../Utils/fetchdata';
 import HorizontalScrollbar from './HorizontalScrollbar';
@@ -7,8 +7,9 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const [search, setSearch] = useState('');
   const [bodyParts, setBodyParts] = useState([]);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
+  
+  const resultsRef = useRef(null);
 
-  // Fetch the categories when the Home page loads
   useEffect(() => {
     const fetchExercisesData = async () => {
       const bodyPartsData = await fetchdata(
@@ -21,7 +22,6 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
     fetchExercisesData();
   }, []);
 
-  // Search for exercises based on query (name, target, equipment, or body part)
   const handleSearch = async (query) => {
     try {
       if (!query) {
@@ -46,22 +46,13 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         );
 
         setExercises(searchedExercises);
+
+        if (resultsRef.current) {
+          resultsRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-    }
-  };
-
-  // Fetch exercises by body part when a gym icon is selected
-  const handleBodyPartClick = async (selectedBodyPart) => {
-    try {
-      const bodyPartData = await fetchdata(
-        `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${selectedBodyPart}`,
-        ExerciseOptions
-      );
-      setExercises(bodyPartData);
-    } catch (error) {
-      console.error('Error fetching body part data:', error);
     }
   };
 
@@ -83,7 +74,25 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
     debounceSearch(search);
   };
 
-  // Fetch exercises based on the selected body part whenever `bodyPart` changes
+  // Fetch exercises by body part when a gym icon is selected
+  const handleBodyPartClick = async (selectedBodyPart) => {
+    try {
+      const bodyPartData = await fetchdata(
+        `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${selectedBodyPart}`,
+        ExerciseOptions
+      );
+      setExercises(bodyPartData);
+      
+      // Scroll to results after body part click
+      if (resultsRef.current) {
+        resultsRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    } catch (error) {
+      console.error('Error fetching body part data:', error);
+    }
+  };
+
+  
   useEffect(() => {
     if (bodyPart && bodyPart !== 'all') {
       handleBodyPartClick(bodyPart.toLowerCase());
@@ -110,7 +119,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
           }}
           height="76px"
           value={search}
-          onChange={handleInputChange} // Only change search state, no automatic search
+          onChange={handleInputChange} 
           placeholder="Search Exercises"
           type="text"
         />
@@ -142,6 +151,10 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
           bodyPart={bodyPart}
           setBodyPart={setBodyPart}
         />
+      </Box>
+
+      <Box ref={resultsRef} sx={{ width: '100%', mt: '20px' }}>
+    
       </Box>
     </Stack>
   );
