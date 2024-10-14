@@ -7,13 +7,13 @@ const ExerciseVideos = ({ exerciseVideos = [], name }) => {
   if (!Array.isArray(exerciseVideos) || !exerciseVideos.length) return 'Loading...';
 
   return (
-    <Box sx={{ marginTop: { lg: '200px', xs: '20px' }, p: '20px' }}>
+    <Box sx={{ marginTop: { lg: '100px', xs: '20px' }, p: '20px' }}>
       {/* Main Title */}
       <Typography 
         variant="h4" 
-        mb="63px" 
+        mb="30px" 
         textAlign="center" 
-        sx={{ fontWeight: 'bold', fontSize: { xs: '24px', lg: '32px' }, color: '#333' }}
+        sx={{ fontWeight: 'bold', fontSize: { xs: '24px', lg: '42px' }, color: '#333' }}
       >
         Watch{' '}
         <span style={{ color: 'teal', textTransform: 'capitalize', fontSize: '1.2em', fontWeight: 'bold' }}>

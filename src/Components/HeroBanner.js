@@ -9,7 +9,7 @@ const HeroBanner = () => {
         ml: {sm:'50px'}
     }} position="relative" padding="20px"
     >
-        <Typography color="#8B0000"
+        <Typography color="#FF4F4D"
         fontWeight="600" fontSize="30px" fontFamily="cursive" ml="2px" 
         >
             Fitness Club
