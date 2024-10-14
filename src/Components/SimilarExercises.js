@@ -3,19 +3,18 @@ import { Box, Stack, Typography, Pagination } from '@mui/material';
 import Loader from './Loader'; 
 import ExerciseCard from './ExerciseCard'; 
 
-const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  // Adding both props
+const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  
   const [currentPageMuscle, setCurrentPageMuscle] = useState(1);
   const [currentPageEquipment, setCurrentPageEquipment] = useState(1);
   const exercisesPerPage = 3; 
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    if (targetMuscleExercises.length || equipmentExercises.length) {  // Check for both datasets
+    if (targetMuscleExercises.length || equipmentExercises.length) {  
       setLoading(false); 
     }
   }, [targetMuscleExercises, equipmentExercises]);
 
-  // Calculate indices for both muscle and equipment pagination
   const indexOfLastMuscleExercise = currentPageMuscle * exercisesPerPage;
   const indexOfFirstMuscleExercise = indexOfLastMuscleExercise - exercisesPerPage;
   const currentMuscleExercises = targetMuscleExercises.slice(indexOfFirstMuscleExercise, indexOfLastMuscleExercise);
@@ -24,7 +23,6 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  /
   const indexOfFirstEquipmentExercise = indexOfLastEquipmentExercise - exercisesPerPage;
   const currentEquipmentExercises = equipmentExercises.slice(indexOfFirstEquipmentExercise, indexOfLastEquipmentExercise);
 
-  // Handle pagination for muscle group
   const paginateMuscle = (event, value) => {
     setCurrentPageMuscle(value);
     if (value === 1) {
@@ -32,7 +30,6 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  /
     }
   };
 
-  // Handle pagination for equipment
   const paginateEquipment = (event, value) => {
     setCurrentPageEquipment(value);
     if (value === 1) {
@@ -55,13 +52,21 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  /
         <>
           <Stack
             direction="row"
-            sx={{ gap: { lg: '110px', xs: '50px' } }} 
-            flexWrap="wrap" 
-            justifyContent="center"
+            sx={{ gap: { lg: '110px', xs: '20px' }, justifyContent: 'center' }} 
+            flexWrap="wrap"
           >
             {currentMuscleExercises.length > 0 ? (
               currentMuscleExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} />
+                <Box 
+                  key={exercise.id} 
+                  sx={{
+                    width: { xs: '100%', sm: '47%', md: '30%' }, 
+                    mb: '20px',
+                    px: { xs: '10px', sm: '0' } // Padding for better appearance on mobile
+                  }}
+                >
+                  <ExerciseCard exercise={exercise} />
+                </Box>
               ))
             ) : (
               <Typography variant="h6" sx={{ textAlign: 'left' }}>
@@ -94,13 +99,21 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  /
 
           <Stack
             direction="row"
-            sx={{ gap: { lg: '110px', xs: '50px' } }} 
-            flexWrap="wrap" 
-            justifyContent="center"
+            sx={{ gap: { lg: '110px', xs: '20px' }, justifyContent: 'center' }} 
+            flexWrap="wrap"
           >
             {currentEquipmentExercises.length > 0 ? (
               currentEquipmentExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} />
+                <Box 
+                  key={exercise.id} 
+                  sx={{
+                    width: { xs: '100%', sm: '47%', md: '30%' }, 
+                    mb: '20px',
+                    px: { xs: '10px', sm: '0' } // Padding for better appearance on mobile
+                  }}
+                >
+                  <ExerciseCard exercise={exercise} />
+                </Box>
               ))
             ) : (
               <Typography variant="h6" sx={{ textAlign: 'left' }}>
