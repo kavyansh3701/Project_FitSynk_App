@@ -3,18 +3,19 @@ import { Box, Stack, Typography, Pagination } from '@mui/material';
 import Loader from './Loader'; 
 import ExerciseCard from './ExerciseCard'; 
 
-const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  
+const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  // Adding both props
   const [currentPageMuscle, setCurrentPageMuscle] = useState(1);
   const [currentPageEquipment, setCurrentPageEquipment] = useState(1);
   const exercisesPerPage = 3; 
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    if (targetMuscleExercises.length || equipmentExercises.length) {  
+    if (targetMuscleExercises.length || equipmentExercises.length) {  // Check for both datasets
       setLoading(false); 
     }
   }, [targetMuscleExercises, equipmentExercises]);
 
+  // Calculate indices for both muscle and equipment pagination
   const indexOfLastMuscleExercise = currentPageMuscle * exercisesPerPage;
   const indexOfFirstMuscleExercise = indexOfLastMuscleExercise - exercisesPerPage;
   const currentMuscleExercises = targetMuscleExercises.slice(indexOfFirstMuscleExercise, indexOfLastMuscleExercise);
@@ -23,6 +24,7 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {
   const indexOfFirstEquipmentExercise = indexOfLastEquipmentExercise - exercisesPerPage;
   const currentEquipmentExercises = equipmentExercises.slice(indexOfFirstEquipmentExercise, indexOfLastEquipmentExercise);
 
+  // Handle pagination for muscle group
   const paginateMuscle = (event, value) => {
     setCurrentPageMuscle(value);
     if (value === 1) {
@@ -30,6 +32,7 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {
     }
   };
 
+  // Handle pagination for equipment
   const paginateEquipment = (event, value) => {
     setCurrentPageEquipment(value);
     if (value === 1) {
@@ -42,8 +45,7 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {
       {/* Section for Muscle Group */}
       <Typography variant="h4" mb={6} textAlign="center" sx={{ fontWeight: 'bold', fontSize: { xs: '24px', lg: '42px' }, color: '#333' }}>
         Exercises that Target{' '}
-        the same <span style={{ color: 'teal', fontSize:'1.2em' }}>Muscle</span>{' '}
-        group
+        the same <span style={{ color: 'teal', fontSize:'1.2em' }}>Muscle group</span>{' '}
       </Typography>
 
       {loading ? (
@@ -52,21 +54,13 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {
         <>
           <Stack
             direction="row"
-            sx={{ gap: { lg: '110px', xs: '20px' }, justifyContent: 'center' }} 
-            flexWrap="wrap"
+            sx={{ gap: { lg: '110px', xs: '50px' } }} 
+            flexWrap="wrap" 
+            justifyContent="center"
           >
             {currentMuscleExercises.length > 0 ? (
               currentMuscleExercises.map((exercise) => (
-                <Box 
-                  key={exercise.id} 
-                  sx={{
-                    width: { xs: '100%', sm: '47%', md: '30%' }, 
-                    mb: '20px',
-                    px: { xs: '10px', sm: '0' } // Padding for better appearance on mobile
-                  }}
-                >
-                  <ExerciseCard exercise={exercise} />
-                </Box>
+                <ExerciseCard key={exercise.id} exercise={exercise} />
               ))
             ) : (
               <Typography variant="h6" sx={{ textAlign: 'left' }}>
@@ -99,21 +93,13 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {
 
           <Stack
             direction="row"
-            sx={{ gap: { lg: '110px', xs: '20px' }, justifyContent: 'center' }} 
-            flexWrap="wrap"
+            sx={{ gap: { lg: '110px', xs: '50px' } }} 
+            flexWrap="wrap" 
+            justifyContent="center"
           >
             {currentEquipmentExercises.length > 0 ? (
               currentEquipmentExercises.map((exercise) => (
-                <Box 
-                  key={exercise.id} 
-                  sx={{
-                    width: { xs: '100%', sm: '47%', md: '30%' }, 
-                    mb: '20px',
-                    px: { xs: '10px', sm: '0' } // Padding for better appearance on mobile
-                  }}
-                >
-                  <ExerciseCard exercise={exercise} />
-                </Box>
+                <ExerciseCard key={exercise.id} exercise={exercise} />
               ))
             ) : (
               <Typography variant="h6" sx={{ textAlign: 'left' }}>
