@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import Bodypart from './Bodypart';
-
+import ExerciseCard from './ExerciseCard'
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 // Left Arrow Component
@@ -27,10 +27,10 @@ const Right = ({ onNext }) => {
 const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
   const scrollContainerRef = useRef(null);
   const intervalRef = useRef(null);
-  const scrollSpeed = 2.5; // Define the scroll speed
+  const scrollSpeed = 2.5; 
   const intervalTime = 20; 
   const [isScrolling, setIsScrolling] = useState(true);
-  const [scrollDirection, setScrollDirection] = useState('right'); // Track the direction of scrolling
+  const [scrollDirection, setScrollDirection] = useState('right'); 
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
@@ -40,19 +40,17 @@ const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
       if (!scrollContainerRef.current) return;
 
       const maxScrollLeft = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth;
-
-      // Scroll continuously based on direction
       if (scrollDirection === 'right') {
         if (scrollContainerRef.current.scrollLeft < maxScrollLeft) {
           scrollContainerRef.current.scrollLeft += scrollSpeed;
         } else {
-          setScrollDirection('left'); // Change direction to left when it hits the right end
+          setScrollDirection('left'); 
         }
       } else if (scrollDirection === 'left') {
         if (scrollContainerRef.current.scrollLeft > 0) {
           scrollContainerRef.current.scrollLeft -= scrollSpeed;
         } else {
-          setScrollDirection('right'); // Change direction to right when it hits the left end
+          setScrollDirection('right'); 
         }
       }
     };
@@ -93,8 +91,8 @@ const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
   return (
     <div ref={scrollContainerRef} style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}>
       <ScrollMenu
-        Left={<Left onPrev={() => setScrollDirection('left')} />} // Scroll left on arrow click
-        Right={<Right onNext={() => setScrollDirection('right')} />} // Scroll right on arrow click
+        Left={<Left onPrev={() => setScrollDirection('left')} />} 
+        Right={<Right onNext={() => setScrollDirection('right')} />} 
       >
         {data.map((item) => (
           <Box
@@ -105,9 +103,9 @@ const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
             sx={{
               display: 'inline-block',
               borderTop: selectedItem === item ? '4px solid red' : 'none',
-              transition: 'transform 0.2s ease', // Smooth pop-out effect on hover
+              transition: 'transform 0.2s ease', 
               '&:hover': {
-                transform: 'scale(1.2)', // Pop-out effect
+                transform: 'scale(1.2)', 
               },
             }}
             onClick={() => {
@@ -127,12 +125,19 @@ const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
 };
 
 // Main HorizontalScrollbar component
-const HorizontalScrollbar = ({ data, bodyPart, setBodyPart = () => {} }) => {
+const HorizontalScrollbar = ({ data, bodyPart, isBodyParts, setBodyPart = () => {} }) => {
   return (
     <Box sx={{ display: 'flex', overflowX: 'auto' }}>
-      <SlideTrackSlider data={data} bodyPart={bodyPart} setBodyPart={setBodyPart} />
+      {isBodyParts ? (
+        <SlideTrackSlider data={data} bodyPart={bodyPart} setBodyPart={setBodyPart} />
+      ) : (
+        data.map((exercise, index) => (
+          <ExerciseCard key={index} exercise={exercise} />
+        ))
+      )}
     </Box>
   );
 };
+
 
 export default HorizontalScrollbar;
