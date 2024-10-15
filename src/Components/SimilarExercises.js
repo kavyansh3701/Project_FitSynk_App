@@ -53,7 +53,7 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {
         <>
           <Stack
             direction="row"
-            sx={{ gap: { lg: '110px', xs: '50px' } }} 
+            sx={{ gap: { lg: '110px', xs: '50px' }, px: { xs: 2, sm: 4 } }} 
             flexWrap="wrap" 
             justifyContent="center"
           >

@@ -8,7 +8,7 @@ const ExerciseCard = ({ exercise }) => {
       className="exercise-card" 
       to={`/exercise/${exercise.id}`} 
        style={{ 
-           width: '400px', 
+           width: { xs: '100%', sm: 'calc(50% - 20px)', md: 'calc(33.33% - 20px)' }, 
            textDecoration: 'none', 
            margin: '1px', 
            display: 'block',
