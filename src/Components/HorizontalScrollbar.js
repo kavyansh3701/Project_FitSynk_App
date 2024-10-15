@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import Bodypart from './Bodypart';
-import ExerciseCard from './ExerciseCard'
+import ExerciseCard from './ExerciseCard';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 // Left Arrow Component
@@ -27,11 +27,11 @@ const Right = ({ onNext }) => {
 const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
   const scrollContainerRef = useRef(null);
   const intervalRef = useRef(null);
-  const scrollSpeed = 2.5; 
+  const scrollSpeed = 2.4; 
   const intervalTime = 20; 
   const [isScrolling, setIsScrolling] = useState(true);
   const [scrollDirection, setScrollDirection] = useState('right'); 
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null); 
 
   useEffect(() => {
     if (!scrollContainerRef.current) return;
@@ -67,7 +67,6 @@ const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
     };
   }, [isScrolling, scrollDirection]);
 
-  // Stop scrolling when the user clicks anywhere on the page
   useEffect(() => {
     const handleScreenClick = () => {
       setIsScrolling(false); 
@@ -76,16 +75,21 @@ const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
     document.addEventListener('click', handleScreenClick);
 
     return () => {
-      // Cleanup the event listener when the component unmounts
       document.removeEventListener('click', handleScreenClick);
     };
   }, []);
 
-  // Function to handle stopping the scrolling when a gym icon is clicked
+  // Function to handle gym icon click
   const handleIconClick = (item) => {
     setIsScrolling(false); 
-    setBodyPart(item);
-    setSelectedItem(item);
+    setBodyPart(item); 
+    setSelectedItem(item); 
+
+    // Smoothly scroll to the exercises section
+    const exerciseSection = document.getElementById('exercises');
+    if (exerciseSection) {
+      exerciseSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -103,18 +107,14 @@ const SlideTrackSlider = ({ data, bodyPart, setBodyPart }) => {
             sx={{
               display: 'inline-block',
               borderTop: selectedItem === item ? '4px solid red' : 'none',
-              transition: 'transform 0.2s ease', 
+              transition: 'transform 0.2s ease',
+              borderRadius: '12px', 
+              overflow: 'hidden', 
               '&:hover': {
-                transform: 'scale(1.2)', 
+                transform: 'scale(1.2)',
               },
             }}
-            onClick={() => {
-              setIsScrolling(false); 
-              setBodyPart(item);
-              // console.log(item);
-            
-              window.scrollTo({ top: 1800, left: 100, behavior: 'smooth' });
-            }}
+            onClick={() => handleIconClick(item)} 
           >
             <Bodypart item={item} bodypart={bodyPart} setBodyPart={setBodyPart} />
           </Box>
@@ -138,6 +138,5 @@ const HorizontalScrollbar = ({ data, bodyPart, isBodyParts, setBodyPart = () => 
     </Box>
   );
 };
-
 
 export default HorizontalScrollbar;

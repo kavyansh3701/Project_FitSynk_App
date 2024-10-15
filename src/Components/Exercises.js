@@ -3,9 +3,8 @@ import Pagination from '@mui/material/Pagination';
 import { Box,Stack, Typography } from '@mui/material';
 
 import ExerciseCard from './ExerciseCard';
-import { fetchdata, ExerciseOptions } from '../Utils/fetchdata';  // Import ExerciseOptions
 
-const Exercises = ({ exercises, setExercises, bodyPart }) => {
+const Exercises = ({ exercises }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const exercisesPerPage = 3;
 
@@ -17,7 +16,7 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
   const paginate = (e ,value) => {
     setCurrentPage(value);
 
-    window.scrollTo({top:1800 , behaviour: 'smooth'}) 
+    window.scrollTo({behaviour: 'smooth'}) 
   }
   
   return (

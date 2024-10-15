@@ -3,19 +3,18 @@ import { Box, Stack, Typography, Pagination } from '@mui/material';
 import Loader from './Loader'; 
 import ExerciseCard from './ExerciseCard'; 
 
-const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  // Adding both props
+const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  
   const [currentPageMuscle, setCurrentPageMuscle] = useState(1);
   const [currentPageEquipment, setCurrentPageEquipment] = useState(1);
   const exercisesPerPage = 3; 
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    if (targetMuscleExercises.length || equipmentExercises.length) {  // Check for both datasets
+    if (targetMuscleExercises.length || equipmentExercises.length) {  
       setLoading(false); 
     }
   }, [targetMuscleExercises, equipmentExercises]);
 
-  // Calculate indices for both muscle and equipment pagination
   const indexOfLastMuscleExercise = currentPageMuscle * exercisesPerPage;
   const indexOfFirstMuscleExercise = indexOfLastMuscleExercise - exercisesPerPage;
   const currentMuscleExercises = targetMuscleExercises.slice(indexOfFirstMuscleExercise, indexOfLastMuscleExercise);
@@ -45,8 +44,7 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  /
       {/* Section for Muscle Group */}
       <Typography variant="h4" mb={6} textAlign="center" sx={{ fontWeight: 'bold', fontSize: { xs: '24px', lg: '42px' }, color: '#333' }}>
         Exercises that Target{' '}
-        the same <span style={{ color: 'teal', fontSize:'1.2em' }}>Muscle</span>{' '}
-        group
+        the same <span style={{ color: 'teal', fontSize:'1.2em' }}>Muscle group</span>{' '}
       </Typography>
 
       {loading ? (
