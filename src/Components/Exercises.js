@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
-import { Box, dividerClasses, Stack, Typography } from '@mui/material';
+import { Box,Stack, Typography } from '@mui/material';
 
 import ExerciseCard from './ExerciseCard';
 import { fetchdata, ExerciseOptions } from '../Utils/fetchdata';  // Import ExerciseOptions

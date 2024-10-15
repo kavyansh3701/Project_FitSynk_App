@@ -45,7 +45,8 @@ const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {  /
       {/* Section for Muscle Group */}
       <Typography variant="h4" mb={6} textAlign="center" sx={{ fontWeight: 'bold', fontSize: { xs: '24px', lg: '42px' }, color: '#333' }}>
         Exercises that Target{' '}
-        the same <span style={{ color: 'teal', fontSize:'1.2em' }}>Muscle group</span>{' '}
+        the same <span style={{ color: 'teal', fontSize:'1.2em' }}>Muscle</span>{' '}
+        group
       </Typography>
 
       {loading ? (
