@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { ExerciseOptions, fetchdata } from '../Utils/fetchdata';
 import HorizontalScrollbar from './HorizontalScrollbar';
@@ -7,7 +7,6 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const [search, setSearch] = useState('');
   const [bodyParts, setBodyParts] = useState([]);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
-  
   const resultsRef = useRef(null);
 
   useEffect(() => {
@@ -30,13 +29,12 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
           ExerciseOptions
         );
         setExercises(allExercisesData);
-      } else if (query) {
-        // Search for specific exercises by name or other criteria
+      } else {
         const exercisesData = await fetchdata(
           `https://exercisedb.p.rapidapi.com/exercises/name/${query}`,
           ExerciseOptions
         );
-        
+
         const searchedExercises = exercisesData.filter(
           (exercise) =>
             exercise.name.toLowerCase().includes(query) ||
@@ -56,7 +54,6 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
     }
   };
 
-  // Debounce search function to reduce API calls
   const debounceSearch = (query) => {
     clearTimeout(debounceTimeout);
     const timeout = setTimeout(() => {
@@ -74,30 +71,27 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
     debounceSearch(search);
   };
 
-  // Fetch exercises by body part when a gym icon is selected
-  const handleBodyPartClick = async (selectedBodyPart) => {
+  const handleBodyPartClick = useCallback(async (selectedBodyPart) => {
     try {
       const bodyPartData = await fetchdata(
         `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${selectedBodyPart}`,
         ExerciseOptions
       );
       setExercises(bodyPartData);
-      
-      // Scroll to results after body part click
+
       if (resultsRef.current) {
         resultsRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     } catch (error) {
       console.error('Error fetching body part data:', error);
     }
-  };
-
+  }, [setExercises]);
   
   useEffect(() => {
     if (bodyPart && bodyPart !== 'all') {
       handleBodyPartClick(bodyPart.toLowerCase());
     }
-  }, [bodyPart]);
+  }, [bodyPart, handleBodyPartClick]);
 
   return (
     <Stack alignItems="center" mt="37px" justifyContent="center" padding="20px">
@@ -119,7 +113,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
           }}
           height="76px"
           value={search}
-          onChange={handleInputChange} 
+          onChange={handleInputChange}
           placeholder="Search Exercises"
           type="text"
         />
@@ -136,11 +130,11 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
             right: '0',
             '&:hover': {
               bgcolor: 'white !important',
-              color: '#008080 !important' ,
-              border: '2px solid #008080 !important'
+              color: '#008080 !important',
+              border: '2px solid #008080 !important',
             },
           }}
-          onClick={handleSearchClick} 
+          onClick={handleSearchClick}
         >
           Search
         </Button>
@@ -155,9 +149,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         />
       </Box>
 
-      <Box ref={resultsRef} sx={{ width: '100%', mt: '20px' }}>
-    
-      </Box>
+      <Box ref={resultsRef} sx={{ width: '100%', mt: '20px' }}></Box>
     </Stack>
   );
 };
