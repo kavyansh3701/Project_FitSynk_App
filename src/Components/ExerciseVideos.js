@@ -2,17 +2,17 @@ import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 
 const ExerciseVideos = ({ exerciseVideos = [], name }) => {
-  console.log(exerciseVideos); 
+  console.log(exerciseVideos);
 
   if (!Array.isArray(exerciseVideos) || !exerciseVideos.length) return 'Loading...';
 
   return (
-    <Box sx={{ marginTop: { lg: '100px', xs: '20px' }, p: '20px' }}>
+    <Box sx={{ marginTop: { lg: '100px', xs: '20px' }, p: { xs: '10px', lg: '20px' } }}>
       {/* Main Title */}
-      <Typography 
-        variant="h4" 
-        mb="30px" 
-        textAlign="center" 
+      <Typography
+        variant="h4"
+        mb="30px"
+        textAlign="center"
         sx={{ fontWeight: 'bold', fontSize: { xs: '24px', lg: '42px' }, color: '#333' }}
       >
         Watch{' '}
@@ -28,10 +28,11 @@ const ExerciseVideos = ({ exerciseVideos = [], name }) => {
         color="textSecondary"
         textAlign="center"
         mb="60px"
-        sx={{ 
-          transition: 'color 0.3s', 
-          '&:hover': { color: 'teal' }, 
-          fontSize: { xs: '14px', lg: '18px' } 
+        sx={{
+          transition: 'color 0.3s',
+          '&:hover': { color: 'teal' },
+          fontSize: { xs: '14px', lg: '18px' },
+          px: { xs: '10px', lg: '0' },
         }}
       >
         Find the best ways to perform{' '}
@@ -56,11 +57,11 @@ const ExerciseVideos = ({ exerciseVideos = [], name }) => {
             href={`https://www.youtube.com/watch?v=${item.video.videoId}`}
             target="_blank"
             rel="noreferrer"
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: 'none', maxWidth: '100%' }}
           >
             <Box
               sx={{
-                width: { lg: '360px', xs: '300px' },
+                width: { lg: '360px', xs: '100%' }, // Adjusted to use full width on mobile
                 mb: '20px',
                 borderRadius: '15px',
                 overflow: 'hidden',
@@ -72,10 +73,9 @@ const ExerciseVideos = ({ exerciseVideos = [], name }) => {
                 },
               }}
             >
-              
-              <img 
-                src={item.video.thumbnails[0].url} 
-                alt={item.video.title} 
+              <img
+                src={item.video.thumbnails[0].url}
+                alt={item.video.title}
                 style={{ width: '100%', borderRadius: '15px 15px 0 0' }}
               />
               <Box p="10px" sx={{ backgroundColor: '#fafafa' }}>
